@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/jquery.qtip-2.1.1.min.css" rel="stylesheet">
+    <link href="css/webshop-poc.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        /* Support form-inline inside form-horizontal. See http://stackoverflow.com/questions/18429121/inline-form-nested-within-horizontal-form-in-bootstrap-3 */
+        .form-inline .form-group{
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        form.address input.zip {
+            width: 60px;
+        }
+        form.address input.city {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>Address Demo #1</h1>
+<small class="pull-right">Rev 3</small>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-7">
+            <form class="form-horizontal address" role="form">
+                <div class="form-group">
+                    <label for="zip" class="col-sm-3 control-label">Zip, City</label>
+
+                    <div class="col-sm-9">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control input-sm zip" id="zip" placeholder="PLZ">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control input-sm city" id="city" placeholder="Stadt">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="street" class="col-sm-3 control-label">Straße</label>
+
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control input-sm" id="street" placeholder="Straße">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="house" class="col-sm-3 control-label">House, Entr., Door</label>
+
+                    <div class="col-sm-9">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control input-sm" id="house" placeholder="Nr.">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control input-sm" id="entrance" placeholder="Stiege">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control input-sm" id="door" placeholder="Tür">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Remember me
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="button" id="fillAndValidate" class="btn btn-default">Fill and validate</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-sm-5">
+            <p>Order Info Basket</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.qtip-2.1.1.min.js"></script>
+
+<script>
+    /* Apply qtip for error messages. Re-apply after ajax element replacements. */
+    function applyQTip() {
+        $('.qtip').remove();
+        $('.has-error[data-errorMessage!=""]').each(function() {
+            $(this).qtip({
+                id: $(this).attr("id"),
+                content: {
+                    attr: 'data-errorMessage'
+                },
+                position: {
+                    my: "bottom left",
+                    at: "top center"
+                },
+                show: {
+                    ready: true
+                },
+                hide: {
+                    event: 'unfocus'
+                },
+                style: {
+                    classes: 'qtip-red qtip-rounded qtip-shadow'
+                }
+            });
+        });
+    }
+    function fillAndValidate() {
+        $("#zip").val("2331").parent().addClass("has-success");
+        $("#city").val("Xxx").parent().addClass("has-error").attr("data-errorMessage", "Stadt ungültig");
+        $("#street").val("Yyyy").parent().addClass("has-error").attr("data-errorMessage", "Straße ungültig asdf asdf sadf asd fasd f adsf asd fasd fads fadsf dsaf ");
+        $("#house").val("-11").parent().addClass("has-error").attr("data-errorMessage", "Hausnummer ungültig");
+        $("#entrance").val("-22").parent().addClass("has-error").attr("data-errorMessage", "Stiege ungültig");
+        applyQTip();
+    }
+    $(document).ready(function () {
+        $("#fillAndValidate").on("click", fillAndValidate);
+    });
+</script>
+</body>
+</html>
