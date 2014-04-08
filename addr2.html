@@ -31,6 +31,9 @@
             padding-left: 2px;
             padding-right: 2px;
         }
+        form.address div.colHelp span {
+            margin-top: 6px;
+        }
 
     </style>
 </head>
@@ -46,21 +49,34 @@
                     <label for="zip" class="col-sm-3 control-label">Zip, City</label>
 
                     <div class="col-sm-2 colFirst">
-                        <input type="text" class="form-control input-sm zip" id="zip" placeholder="PLZ">
+                        <input type="text" class="form-control input-sm zip" id="zip" placeholder="PLZ"
+                        data-helpText="Bitte geben Sie mindestens 2 Zahlen ein um eine Postleitzahl auszuwählen">
                     </div>
-                    <div class="col-sm-7 colLast">
-                        <input type="text" class="form-control input-sm city" id="city" placeholder="Stadt">
+                    <div class="col-sm-6 colLast">
+                        <input type="text" class="form-control input-sm city" id="city" placeholder="Stadt"
+                               data-helpText="Bitte geben Sie eine Stadt ein oder wählen Sie aus der Liste aus">
+                    </div>
+                    <div class="col-sm-1 colHelp">
+                        <a href="javascript:void(0)" class="activateHelpLink" data-helpSelector="#zip, #city">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </a>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="street" class="col-sm-3 control-label">Straße</label>
 
-                    <div class="col-sm-9 colFirst">
-                        <input type="text" class="form-control input-sm" id="street" placeholder="Straße">
+                    <div class="col-sm-8 colFirst">
+                        <input type="text" class="form-control input-sm" id="street" placeholder="Straße"
+                               data-helpText="Bitte geben Sie mindestens einen Buchstaben ein um aus einer Liste von Straßen zu wählen">
+                    </div>
+                    <div class="col-sm-1 colHelp">
+                        <a href="javascript:void(0)" class="activateHelpLink" data-helpSelector="#street">
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                        </a>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="house" class="col-sm-3 control-label">House, Entr., Door</label>
+                    <label for="house" class="col-sm-3 control-label">Hausnr., Stiege, Tür</label>
 
                     <div class="col-sm-2 colFirst">
                         <input type="text" class="form-control input-sm" id="house" placeholder="Nr.">
@@ -137,8 +153,37 @@
         $("#entrance").val("-22").parent().addClass("has-error").attr("data-errorMessage", "Stiege ungültig");
         applyQTip();
     }
+    function activateHelp(ev) {
+        var helpSelector = $(this).attr("data-helpSelector");
+        //var helpInputs = $('input[data-helpText]');
+        var helpInputs = $(helpSelector);
+        console.debug("activateHelp inputs:", helpInputs);
+        helpInputs.each(function() {
+            $(this).qtip({
+                id: $(this).attr("id") + "-help",
+                content: {
+                    attr: 'data-helpText'
+                },
+                position: {
+                    my: "bottom left",
+                    at: "top left",
+                    adjust: { x: 10 }
+                },
+                show: {
+                    ready: true
+                },
+                hide: {
+                    event: 'unfocus'
+                },
+                style: {
+                    classes: 'qtip-light qtip-rounded qtip-shadow'
+                }
+            });
+        });
+    }
     $(document).ready(function () {
         $("#fillAndValidate").on("click", fillAndValidate);
+        $(".activateHelpLink").on("click", activateHelp);
     });
 </script>
 </body>
